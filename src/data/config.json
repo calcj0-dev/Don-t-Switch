@@ -8,6 +8,7 @@
   "bank": { "principal": 100000000, "annualRate": 0.002, "method": "simpleDaily365Round" },
   "switchConfirm": false,
   "switchOnLastDay": false,
+  "lastDayGuardMs": 800,
   "graph": { "yMaxBase": 120000000, "expandFromDay": 29, "overflowMargin": 1.1, "resultYMax": 600000000 },
   "groups": [
     { "id": "g1", "from": 1,  "to": 10, "titleId": "t_g1", "endingId": "e_g1", "sound": "powan" },
