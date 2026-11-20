@@ -3,6 +3,7 @@
 import { t } from '../i18n';
 import { onSettingsChange, settings } from '../settings';
 import { APP_VERSION } from '../version';
+import type { App } from './app';
 import { h } from './dom';
 
 const SPEAKER_ON =
@@ -22,6 +23,23 @@ export function soundButton(): { el: HTMLButtonElement; dispose: () => void } {
   });
   paint();
   return { el, dispose: onSettingsChange(paint) };
+}
+
+const ARROW_LEFT =
+  '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/** 左上の「← タイトル」。confirm が true なら、やり直しになることを確かめてから戻る（毎日の画面） */
+export function backToTitle(app: App, confirm = false): HTMLButtonElement {
+  const el = h('button', { className: 'back-btn', attrs: { type: 'button' } });
+  el.innerHTML = ARROW_LEFT;
+  el.append(t('common.toTitle'));
+  el.addEventListener('click', () => (confirm ? app.openModal('confirmTitle') : app.go('title')));
+  return el;
+}
+
+/** 上の帯：左に「← タイトル」、右に音のボタン */
+export function topBar(app: App, sound: HTMLElement, confirm = false): HTMLElement {
+  return h('div', { className: 'top-bar top-bar-nav' }, [backToTitle(app, confirm), sound]);
 }
 
 /** 右上のバージョン（共通の決まり C1） */

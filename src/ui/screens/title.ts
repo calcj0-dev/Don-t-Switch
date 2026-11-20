@@ -11,6 +11,7 @@ export const titleScreen: ScreenFactory = (app) => {
   const sound = soundButton();
   const el = h('section', { className: 'screen screen-title' }, [
     h('div', { className: 'top-bar' }, [versionLabel(), sound.el]),
+    h('div', { className: 'title-deco', attrs: { 'aria-hidden': 'true' }, text: t('title.deco') }),
     h('h1', { className: 'title', text: t('meta.name') }),
     h('p', { className: 'tagline', text: t('meta.tagline') }),
     button(

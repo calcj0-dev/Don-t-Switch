@@ -9,7 +9,7 @@ import { t, type MessageKey } from '../../i18n';
 import { session } from '../../session';
 import type { ScreenFactory } from '../app';
 import { button, h } from '../dom';
-import { soundButton } from '../parts';
+import { soundButton, topBar } from '../parts';
 
 const LINE_MS = 900;
 
@@ -55,9 +55,9 @@ export const endingScreen: ScreenFactory = (app) => {
   );
 
   const el = h('section', { className: 'screen screen-ending' }, [
-    h('div', { className: 'top-bar' }, [sound.el]),
+    topBar(app, sound.el),
     h('p', { className: 'ending-head', text: sd == null ? t('result.completed') : t('result.switchedOn', { day: sd }) }),
-    h('div', { className: 'ending-lines' }, lines),
+    h('div', { className: 'ending-lines page' }, lines),
     toResultBtn,
   ]);
 

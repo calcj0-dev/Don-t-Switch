@@ -1,7 +1,7 @@
 // 画面の切り替えと説明窓（設計書 2章）。ページの読み込みは起こさない（前作の app.ts を簡単にしたもの）
 
 export type ScreenName = 'title' | 'offer' | 'day' | 'ending' | 'result' | 'reality';
-export type ModalName = 'how' | 'privacy';
+export type ModalName = 'how' | 'privacy' | 'confirmTitle';
 
 export type App = {
   go(screen: ScreenName): void;

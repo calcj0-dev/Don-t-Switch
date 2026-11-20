@@ -5,14 +5,14 @@ import { t } from '../../i18n';
 import { session } from '../../session';
 import type { ScreenFactory } from '../app';
 import { button, h } from '../dom';
-import { soundButton } from '../parts';
+import { soundButton, topBar } from '../parts';
 
 export const offerScreen: ScreenFactory = (app) => {
   const sound = soundButton();
   const el = h('section', { className: 'screen screen-offer' }, [
-    h('div', { className: 'top-bar' }, [sound.el]),
+    topBar(app, sound.el),
     h('div', { className: 'offer-icon', attrs: { 'aria-hidden': 'true' }, text: t('speakers.rich') }),
-    h('div', { className: 'offer-lines' }, [
+    h('div', { className: 'offer-lines page letter' }, [
       h('p', { text: t('offer.line1') }),
       h('p', { className: 'offer-quote', text: t('offer.line2') }),
       h('p', { className: 'offer-quote', text: t('offer.line3') }),

@@ -20,4 +20,11 @@ export const modals: Record<ModalName, ModalFactory> = {
     ...(['privacy.p1', 'privacy.p2', 'privacy.p3', 'privacy.p4'] as const).map((k) => h('p', { text: t(k) })),
     externalLink(t('privacy.vercelPolicy'), config.links.vercelPrivacy),
   ]),
+  // 毎日の画面で「← タイトル」を押したとき。続ける方を目立たせる
+  confirmTitle: (app) =>
+    h('div', { className: 'modal-panel' }, [
+      h('p', { className: 'modal-body confirm-text', text: t('common.confirmTitle') }),
+      button(t('common.confirmNo'), () => app.closeModal(), 'btn btn-primary'),
+      button(t('common.confirmYes'), () => app.go('title'), 'btn'),
+    ]),
 };

@@ -32,9 +32,10 @@ if (root) {
   );
   app.go('title');
 
-  // 開発用（公開版では無視する）：?day=27 でその日の画面、?end=22&to=result で乗り換え後の画面（end=30 は完走）
+  // 開発用（公開版では無視する）：?screen=offer で申し出、?day=27 でその日の画面、?end=22&to=result で乗り換え後の画面（end=30 は完走）
   if (import.meta.env.DEV) {
     const q = new URLSearchParams(location.search);
+    if (q.get('screen') === 'offer') app.go('offer');
     const day = Number(q.get('day') ?? q.get('end'));
     if (day >= 1 && day <= config.days) {
       let g = accept(session.game);

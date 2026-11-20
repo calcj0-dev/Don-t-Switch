@@ -6,7 +6,7 @@ import { toMan } from '../../format';
 import { t, type MessageKey } from '../../i18n';
 import type { ScreenFactory } from '../app';
 import { button, externalLink, h } from '../dom';
-import { soundButton } from '../parts';
+import { soundButton, topBar } from '../parts';
 import { retry } from './retry';
 
 export const realityScreen: ScreenFactory = (app) => {
@@ -40,10 +40,10 @@ export const realityScreen: ScreenFactory = (app) => {
     h('div', { className: 'app-card' }, [note && h('p', { className: 'app-note', text: t(note) }), externalLink(t(name), href)]);
 
   const el = h('section', { className: 'screen screen-reality' }, [
-    h('div', { className: 'top-bar' }, [sound.el]),
+    topBar(app, sound.el),
     h('p', { className: 'reality-lead' }, [h('span', { className: 'speaker', text: t('speakers.rich') }), t('reality.lead')]),
     h('p', { className: 'reality-premise', text: t('reality.premise') }),
-    h('div', { className: 'bars' }, bars),
+    h('div', { className: 'bars card' }, bars),
     h('p', { className: 'reality-punch', text: t('reality.punch') }),
     h('p', { className: 'reality-sub', text: t('reality.punchSub') }),
     h('div', { className: 'apps' }, [

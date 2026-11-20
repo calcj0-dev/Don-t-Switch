@@ -6,7 +6,11 @@
     "tagline": "1億円か、1円を毎日2倍・30日か。"
   },
   "common": {
-    "close": "閉じる"
+    "close": "閉じる",
+    "toTitle": "タイトル",
+    "confirmTitle": "最初からやり直しになります。タイトルに戻りますか？",
+    "confirmYes": "戻る",
+    "confirmNo": "続ける"
   },
   "units": {
     "man": "{man}万円",
@@ -19,6 +23,7 @@
     "quoteClose": "」"
   },
   "title": {
+    "deco": "💴 🎩 🪙",
     "start": "はじめる",
     "how": "遊び方",
     "portal": "ほかのアプリ（Ted App Lab）",

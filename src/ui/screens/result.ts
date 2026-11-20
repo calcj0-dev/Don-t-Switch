@@ -11,7 +11,7 @@ import { renderResultImage } from '../../share/resultImage';
 import { canShareImage, openXIntent, saveImage, shareWithImage } from '../../share/share';
 import type { ScreenFactory } from '../app';
 import { button, externalLink, h } from '../dom';
-import { soundButton } from '../parts';
+import { soundButton, topBar } from '../parts';
 import { resultGraphCanvas } from '../resultGraph';
 import { retry } from './retry';
 
@@ -40,7 +40,8 @@ export const resultScreen: ScreenFactory = (app) => {
   );
 
   const el = h('section', { className: 'screen screen-result' }, [
-    h('div', { className: 'top-bar' }, [sound.el]),
+    topBar(app, sound.el),
+    h('div', { className: 'certificate' }, [
     h('p', { className: 'result-heading', text: t('result.heading') }),
     h('h1', { className: 'result-title', text: t('result.titleLabel', { title: t(`titles.${g.titleId}` as MessageKey) }) }),
     h('div', { className: 'result-facts' }, [
@@ -48,7 +49,8 @@ export const resultScreen: ScreenFactory = (app) => {
       h('p', { text: t('result.received', { yen: yen(received(sd, config)) }) }),
       h('p', { className: 'result-gap', text: sd == null ? t('result.gapZero') : t('result.gap', { gap: yen(gapToFull(sd, config)) }) }),
     ]),
-    h('div', { className: 'graph-wrap' }, [graph.el]),
+    ]),
+    h('div', { className: 'graph-wrap card' }, [graph.el]),
     h('div', { className: 'result-actions' }, [
       h('div', { className: 'result-share-row' }, [share, save]),
       button(

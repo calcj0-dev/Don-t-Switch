@@ -1,16 +1,26 @@
-/* 色・見た目の細部は【案】。#3 のあとにスマホで見せて確認する（要件定義書 U4） */
+/* 見た目：日記帳（2026-11-20 オーナー決定）。クリーム色の紙に、金と深い緑。
+   日記・申し出・エンディングは罫線の紙、称号は賞状のカード */
 :root {
-  --bg: #ffffff;
-  --surface: #f5f7fa;
-  --line: #e3e7ed;
-  --text: #1a1f2b;
-  --text-sub: #5f6779;
-  --gold: #c98a12;
-  --gold-soft: #fbf3e2;
-  --bank: #8a93a3;
-  --switch: #1e9e6a;
+  --page: #efe6d2; /* 画面の外（PC で見たときの両側） */
+  --bg: #fbf7ee; /* 紙 */
+  --card: #fffdf8;
+  --surface: #f4ecda;
+  --line: #e4d8bf;
+  --rule: #e9dfca; /* 罫線 */
+  --margin: #e3a596; /* 紙の左の赤い線 */
+  --text: #2b261f;
+  --text-sub: #7a6d5c;
+  --gold: #b97f0e;
+  --gold-soft: #f8ecd0;
+  --gold-deep: #8a5d05;
+  --bank: #9b9486;
+  --ink: #2b261f; /* 「次の日へ」 */
+  --switch: #1f6b4f; /* 「1億円に乗り換える」 */
+  --switch-deep: #154a37;
+  --shadow: 0 1px 2px rgb(60 45 20 / 0.08), 0 4px 14px rgb(60 45 20 / 0.08);
   --app-width: 480px;
   --gutter: 16px;
+  --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
   color-scheme: light;
 }
 
@@ -22,7 +32,7 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  background: var(--surface);
+  background: var(--page);
   color: var(--text);
   font-family: system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif;
   font-variant-numeric: tabular-nums;
@@ -39,6 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   padding-top: env(safe-area-inset-top);
+  box-shadow: 0 0 40px rgb(60 45 20 / 0.12);
 }
 
 .screen-host {
@@ -52,6 +63,14 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 var(--gutter) calc(16px + env(safe-area-inset-bottom));
+  animation: screen-in 0.28s ease-out;
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }
 
 p {
@@ -73,6 +92,28 @@ button {
   min-height: 52px;
 }
 
+.top-bar-nav {
+  justify-content: space-between;
+}
+
+.back-btn {
+  min-height: 44px;
+  padding: 0 10px 0 4px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-sub);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.back-btn:active {
+  background: var(--surface);
+}
+
 .version {
   font-size: 12px;
   color: var(--text-sub);
@@ -84,7 +125,7 @@ button {
   display: inline-grid;
   place-items: center;
   border: 0;
-  border-radius: 8px;
+  border-radius: 999px;
   background: transparent;
   color: var(--text-sub);
   cursor: pointer;
@@ -94,24 +135,37 @@ button {
   background: var(--surface);
 }
 
+/* ボタン：下に影を付けて、押すと沈む */
 .btn {
+  --edge: var(--line);
   min-height: 56px;
   padding: 0 20px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--bg);
+  border: 1.5px solid var(--edge);
+  border-radius: 14px;
+  background: var(--card);
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 3px 0 var(--edge);
+  transition:
+    transform 0.06s,
+    box-shadow 0.06s,
+    opacity 0.2s;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
 
+.btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 var(--edge);
+}
+
 .btn-primary {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
+  --edge: #000000;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fffaf0;
 }
 
 .btn-start {
@@ -120,8 +174,9 @@ button {
   font-size: 18px;
 }
 
-.btn:active {
-  transform: scale(0.97);
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .link {
@@ -132,7 +187,8 @@ button {
   color: var(--text-sub);
   font-size: 14px;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  text-underline-offset: 4px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -156,25 +212,48 @@ button {
   font-size: 12px;
 }
 
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* 罫線の紙（日記・申し出・エンディング） */
+.page {
+  position: relative;
+  padding: 14px 16px 14px 28px;
+  border: 1px solid var(--line);
+  border-radius: 6px 16px 16px 6px;
+  background-color: var(--card);
+  background-image:
+    linear-gradient(90deg, transparent 17px, var(--margin) 17px, var(--margin) 18px, transparent 18px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px);
+  background-position: 0 0, 0 14px;
+  box-shadow: var(--shadow);
+  line-height: 28px; /* 罫線（28px ごと）に文字を乗せる */
+}
+
 /* ---- 説明窓 ---- */
 .modal {
   width: min(398px, calc(100vw - 32px));
   max-height: calc(100dvh - 48px);
   padding: 0;
   border: 0;
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--bg);
   color: var(--text);
+  box-shadow: 0 20px 60px rgb(40 30 10 / 0.3);
 }
 
 .modal::backdrop {
-  background: rgb(26 31 43 / 0.45);
+  background: rgb(43 38 31 / 0.5);
 }
 
 .modal-panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   padding: 24px;
 }
 
@@ -190,6 +269,12 @@ button {
   padding: 0;
 }
 
+.confirm-text {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
 /* ---- S1 タイトル ---- */
 .screen-title {
   align-items: center;
@@ -201,21 +286,43 @@ button {
   align-self: stretch;
 }
 
+.title-deco {
+  margin-top: 40px;
+  font-size: 44px;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  animation: float 3.2s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 .title {
-  margin: 72px 0 0;
-  font-size: 34px;
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 40px;
   font-weight: 800;
   line-height: 1.3;
+  letter-spacing: 0.04em;
 }
 
 .tagline {
-  margin-bottom: 40px;
-  color: var(--text-sub);
+  margin-bottom: 36px;
+  padding: 4px 14px;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+  color: var(--gold-deep);
+  font-family: var(--serif);
   font-size: 16px;
+  font-weight: 700;
 }
 
 .disclaimer-text {
   margin-top: 16px;
+  max-width: 32em;
 }
 
 .title-links {
@@ -227,28 +334,27 @@ button {
 
 /* ---- S2 申し出 ---- */
 .screen-offer {
-  gap: 24px;
+  gap: 20px;
 }
 
 .offer-icon {
-  margin-top: 24px;
+  margin-top: 12px;
   font-size: 64px;
   text-align: center;
   line-height: 1;
 }
 
-.offer-lines {
+.letter {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0;
+  font-family: var(--serif);
   font-size: 16px;
 }
 
 .offer-quote {
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: var(--surface);
   font-weight: 700;
+  color: var(--gold-deep);
 }
 
 .screen-offer .btn-start {
@@ -256,44 +362,86 @@ button {
 }
 
 /* ---- S3 毎日の画面 ---- */
-.top-bar-day {
+.day-head {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--text);
 }
 
 .day-label {
-  font-size: 18px;
+  font-family: var(--serif);
+  font-size: 24px;
   font-weight: 800;
+  white-space: nowrap;
+}
+
+.dots {
+  display: grid;
+  grid-template-columns: repeat(15, 7px);
+  gap: 4px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.dot.is-done {
+  background: var(--gold);
+}
+
+.dot.is-today {
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--gold-soft);
+}
+
+.amount-box {
+  margin-top: 10px;
+  text-align: center;
 }
 
 .amount {
-  font-size: clamp(36px, 11vw, 48px);
+  font-size: clamp(36px, 11vw, 50px);
   font-weight: 800;
   line-height: 1.15;
-  text-align: center;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
 .increase {
-  margin-top: 4px;
-  color: var(--gold);
-  font-size: 20px;
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+  font-size: 18px;
   font-weight: 800;
-  text-align: center;
 }
 
 .graph-wrap {
-  margin: 12px 0 8px;
+  margin: 12px 0 10px;
+  padding: 6px 8px 4px;
 }
 
 .graph {
   display: block;
   width: 100%;
-  height: 240px;
+  height: 230px;
+}
+
+.diary-page {
+  display: flex;
+  flex-direction: column;
 }
 
 .analogy {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -303,14 +451,11 @@ button {
 }
 
 .diary {
-  margin-top: 8px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--surface);
   display: flex;
   gap: 8px;
-  font-size: 15px;
-  min-height: 4.6em;
+  font-family: var(--serif);
+  font-size: 16px;
+  min-height: 56px;
 }
 
 .diary-speaker {
@@ -322,13 +467,13 @@ button {
   padding-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 26px;
 }
 
 .btn-next {
   min-height: 72px;
   font-size: 20px;
-  transition: opacity 0.2s;
+  letter-spacing: 0.05em;
 }
 
 .btn-next.is-cooling {
@@ -336,6 +481,7 @@ button {
 }
 
 .btn-switch {
+  --edge: var(--switch-deep);
   min-height: 56px;
   background: var(--switch);
   border-color: var(--switch);
@@ -343,10 +489,17 @@ button {
   font-size: 16px;
 }
 
-/* 28日目：額を金色に、少し揺らす【案】 */
+/* 28日目：額を金色に、少し揺らす */
 .is-reverse .amount {
   color: var(--gold);
   animation: shake 0.5s ease-out;
+}
+
+.is-reverse .graph-wrap {
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 3px var(--gold-soft),
+    var(--shadow);
 }
 
 @keyframes shake {
@@ -368,27 +521,22 @@ button {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .is-reverse .amount {
-    animation: none;
-  }
-}
-
 /* ---- S4 エンディング ---- */
 .ending-head {
-  margin-top: 48px;
+  margin-top: 24px;
   color: var(--text-sub);
   font-size: 15px;
+  text-align: center;
 }
 
 .ending-lines {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin: 8px 0 32px;
-  font-size: 20px;
+  margin: 16px 0 32px;
+  min-height: 168px;
+  font-family: var(--serif);
+  font-size: 19px;
   font-weight: 700;
-  line-height: 1.7;
 }
 
 .ending-line,
@@ -414,21 +562,35 @@ button {
 
 /* ---- S5 結果 ---- */
 .screen-result {
-  gap: 8px;
+  gap: 10px;
+}
+
+/* 称号は賞状のように */
+.certificate {
+  padding: 18px 16px;
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 4px var(--card),
+    inset 0 0 0 5px var(--gold-soft),
+    var(--shadow);
+  text-align: center;
 }
 
 .result-heading {
-  color: var(--text-sub);
-  font-size: 14px;
-  text-align: center;
+  color: var(--gold-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 .result-title {
-  margin: 0 0 8px;
+  margin: 6px 0 10px;
+  font-family: var(--serif);
   font-size: 24px;
   font-weight: 800;
   line-height: 1.4;
-  text-align: center;
 }
 
 .result-facts {
@@ -436,7 +598,6 @@ button {
   flex-direction: column;
   gap: 2px;
   font-size: 15px;
-  text-align: center;
 }
 
 .result-day {
@@ -444,18 +605,18 @@ button {
 }
 
 .result-gap {
-  color: var(--gold);
+  color: var(--gold-deep);
   font-weight: 700;
 }
 
 .graph-result {
-  height: 200px;
+  height: 190px;
 }
 
 .result-actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .result-share-row {
@@ -464,18 +625,15 @@ button {
   gap: 10px;
 }
 
-.btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
 .btn-reality {
+  --edge: var(--gold);
   background: var(--gold-soft);
   border-color: var(--gold);
+  color: var(--gold-deep);
 }
 
 .page-links {
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -488,23 +646,29 @@ button {
 }
 
 .reality-lead {
+  position: relative;
   display: flex;
   gap: 8px;
   padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--surface);
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  font-family: var(--serif);
   font-size: 16px;
   font-weight: 700;
 }
 
 .reality-premise {
   font-size: 15px;
+  font-weight: 700;
 }
 
 .bars {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  padding: 14px;
 }
 
 .bar-label {
@@ -529,10 +693,18 @@ button {
 
 .bar-total {
   background: var(--gold);
+  animation: grow 0.9s ease-out both;
+  transform-origin: left;
 }
 
 .bar-deposited {
   background: rgb(255 255 255 / 0.55);
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
 }
 
 .is-bank .bar-total {
@@ -557,11 +729,22 @@ button {
 }
 
 .reality-punch {
-  margin-top: 8px;
-  font-size: 22px;
+  margin-top: 6px;
+  font-family: var(--serif);
+  font-size: 23px;
   font-weight: 800;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.5;
+}
+
+.reality-punch::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin: 8px auto 0;
+  border-radius: 2px;
+  background: var(--gold);
 }
 
 .reality-sub {
@@ -575,8 +758,9 @@ button {
   flex-direction: column;
   gap: 8px;
   padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  border: 1px dashed var(--gold);
+  border-radius: 14px;
+  background: var(--card);
 }
 
 .apps-heading {
@@ -603,4 +787,13 @@ button {
 
 .reality-note {
   line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen,
+  .title-deco,
+  .is-reverse .amount,
+  .bar-total {
+    animation: none;
+  }
 }
