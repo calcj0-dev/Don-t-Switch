@@ -1,4 +1,4 @@
-// S5 結果（設計書 1.7・F-06）。シェアと画像の保存は #5 でつなぐ（いまは押せない）
+// S5 結果（設計書 1.7・F-06・F-08）
 
 import { gapToFull, groupFor, received } from '../../core/compound';
 import { toReality } from '../../core/game';
@@ -6,6 +6,9 @@ import { config } from '../../data';
 import { yen } from '../../format';
 import { t, type MessageKey } from '../../i18n';
 import { session } from '../../session';
+import { postText } from '../../share/postText';
+import { renderResultImage } from '../../share/resultImage';
+import { canShareImage, openXIntent, saveImage, shareWithImage } from '../../share/share';
 import type { ScreenFactory } from '../app';
 import { button, externalLink, h } from '../dom';
 import { soundButton } from '../parts';
@@ -18,10 +21,23 @@ export const resultScreen: ScreenFactory = (app) => {
   const g = groupFor(sd, config.groups);
   const graph = resultGraphCanvas(sd, config);
 
-  const share = button(t('result.share'), () => {}, 'btn btn-primary');
-  const save = button(t('result.save'), () => {}, 'btn');
-  share.disabled = true;
+  // 結果画像は画面を開いたときに作っておく（共有はタップの中ですぐ呼ぶ必要があるため）
+  let imageBlob: Blob | null = null;
+  const save = button(t('result.save'), () => imageBlob && void saveImage(imageBlob), 'btn');
   save.disabled = true;
+  void renderResultImage(sd).then((b) => {
+    imageBlob = b;
+    save.disabled = !b;
+  });
+  const share = button(
+    t('result.share'),
+    () => {
+      const text = postText(sd);
+      if (matchMedia('(pointer: coarse)').matches && canShareImage(imageBlob)) void shareWithImage(text, imageBlob!);
+      else openXIntent(text);
+    },
+    'btn btn-primary',
+  );
 
   const el = h('section', { className: 'screen screen-result' }, [
     h('div', { className: 'top-bar' }, [sound.el]),

@@ -7,6 +7,18 @@
     <meta name="description" content="1億円か、1円を毎日2倍・30日か。毎日「1億円に乗り換える？」と聞かれる、我慢のブラウザゲーム。" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <!-- URL を貼ったときのカード（設計書 6章。決まった1枚）。%SITE_URL% はビルド時に config.json の links.site になる -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="乗り換えたら負け" />
+    <meta property="og:title" content="乗り換えたら負け" />
+    <meta property="og:description" content="1億円か、1円を毎日2倍・30日か。毎日「1億円に乗り換える？」と聞かれる、我慢のブラウザゲーム。" />
+    <meta property="og:url" content="%SITE_URL%" />
+    <meta property="og:image" content="%SITE_URL%og-default.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@shooojp19" />
   </head>
   <body>
     <div id="app"></div>

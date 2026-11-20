@@ -50,6 +50,8 @@
   "hashtag": "乗り換えたら負け",
   "storageKey": "baka084.v1",
   "links": {
+    "site": "https://don-t-switch.vercel.app/",
+    "xIntent": "https://x.com/intent/post",
     "portal": "https://app-lab-rust.vercel.app/?utm_source=bakage&utm_medium=game&utm_campaign=baka084",
     "tameru": "https://tameru-lovat.vercel.app/?utm_source=bakage&utm_medium=game&utm_campaign=baka084",
     "follow": "https://x.com/shooojp19",
