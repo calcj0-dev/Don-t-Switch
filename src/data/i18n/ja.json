@@ -8,6 +8,16 @@
   "common": {
     "close": "閉じる"
   },
+  "units": {
+    "man": "{man}万円",
+    "okuMan": "{oku}億{man}万円",
+    "oku": "{oku}億円"
+  },
+  "text": {
+    "sentenceEnd": "。",
+    "quoteOpen": "「",
+    "quoteClose": "」"
+  },
   "title": {
     "start": "はじめる",
     "how": "遊び方",

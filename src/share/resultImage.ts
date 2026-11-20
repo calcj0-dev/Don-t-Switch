@@ -1,8 +1,9 @@
 // 結果画像 1200×630（設計書 6章）。画面に出さない Canvas に描いて PNG にする。
 // 30マスは端末で絵文字の見た目が違うため、色の四角で描く
 
-import { groupFor, toOkuMan, yenOnDay } from '../core/compound';
+import { groupFor, yenOnDay } from '../core/compound';
 import { config } from '../data';
+import { toOkuMan } from '../format';
 import { t, type MessageKey } from '../i18n';
 import { drawResultGraphOn } from '../ui/resultGraph';
 import { shareUrl } from './share';

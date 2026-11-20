@@ -1,6 +1,7 @@
 // S3 毎日の画面（設計書 2章・2.1・2.2・F-03・F-04）。
 // 画面は1回だけ組み立て、タップのたびに中身だけ書き換える（描き直しの途中のタップも捨てずに1日ずつ進む）
 
+import { chalinCount, playByName, sfx } from '../../audio';
 import { analogyFor, increaseOnDay, yMaxForDay, yenOnDay } from '../../core/compound';
 import { canSwitch, pressNext, pressSwitch } from '../../core/game';
 import { config } from '../../data';
@@ -65,13 +66,22 @@ export const dayScreen: ScreenFactory = (app) => {
     const before = session.game;
     session.game = pressNext(before, performance.now(), config);
     if (session.game === before) return;
-    if (session.game.phase === 'ending') app.go('ending');
-    else render();
+    if (session.game.phase === 'ending') {
+      app.go('ending');
+      return;
+    }
+    const d = session.game.day;
+    sfx.chalin(chalinCount(d, config.sounds.nextLevels), d);
+    if (d === config.reverseDay) playByName(config.sounds.reverse);
+    render();
   });
   switchBtn.addEventListener('click', () => {
     const before = session.game;
     session.game = pressSwitch(before, config);
-    if (session.game !== before) app.go('ending');
+    if (session.game !== before) {
+      playByName(config.sounds.switch);
+      app.go('ending');
+    }
   });
 
   render();

@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import * as K from '../src/core/compound';
 import { config as C, messagesByLocale } from '../src/data';
+import { toMan, toOkuMan } from '../src/format';
 import { format } from '../src/i18n';
 import { endingLines, table30 } from './helpers';
 
@@ -45,7 +46,7 @@ describe('T-02 日記・エンディングの中の数字の検算（12項目）
   it('27日目「あと3,289万円」', () => expect(Math.round((1e8 - K.yenOnDay(27)) / 1e4)).toBe(3289));
   it('28日目「超えた」', () => expect(K.yenOnDay(28) > 1e8 && K.yenOnDay(27) < 1e8 && C.reverseDay === 28).toBe(true));
   it('30日目「利息は1.6万円」', () => expect(Math.round(K.bankInterest(30, B) / 1000) / 10).toBe(1.6));
-  it('30日目「5億3,687万円」', () => expect(K.toOkuMan(K.yenOnDay(30))).toBe('5億3,687万円'));
+  it('30日目「5億3,687万円」', () => expect(toOkuMan(K.yenOnDay(30))).toBe('5億3,687万円'));
   it('現実版「積立は約2倍、結果は約3.5倍の差」', () => {
     const r = C.reality.rows.map((x) => K.reality(C.reality.monthly, x.rate, x.startAge, C.reality.endAge));
     expect(Math.round(r[0]!.deposited / r[1]!.deposited)).toBe(2);
@@ -102,5 +103,5 @@ describe('T-05 現実版', () => {
       expect(K.reality(C.reality.monthly, r.rate, r.startAge, C.reality.endAge)).toEqual({ total: r.expectTotal, deposited: r.expectDeposited }),
     );
   }
-  it('万円表記', () => expect(C.reality.rows.map((r) => K.toMan(r.expectTotal))).toEqual(['5,456万円', '1,555万円', '1,617万円']));
+  it('万円表記', () => expect(C.reality.rows.map((r) => toMan(r.expectTotal))).toEqual(['5,456万円', '1,555万円', '1,617万円']));
 });

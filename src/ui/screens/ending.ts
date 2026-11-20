@@ -1,5 +1,6 @@
 // S4 エンディング（設計書 1.6・F-05）。区分の文を1文ずつゆっくり出す。画面をタップすると残りをすぐ出す
 
+import { playByName } from '../../audio';
 import { endingVars, groupFor } from '../../core/compound';
 import { toResult } from '../../core/game';
 import { config } from '../../data';
@@ -17,11 +18,14 @@ export function splitSentences(text: string): string[] {
   const out: string[] = [];
   let buf = '';
   let depth = 0;
+  const end = t('text.sentenceEnd');
+  const open = t('text.quoteOpen');
+  const close = t('text.quoteClose');
   for (const ch of text) {
     buf += ch;
-    if (ch === '「') depth++;
-    else if (ch === '」') depth = Math.max(0, depth - 1);
-    else if (ch === '。' && depth === 0) {
+    if (ch === open) depth++;
+    else if (ch === close) depth = Math.max(0, depth - 1);
+    else if (ch === end && depth === 0) {
       out.push(buf);
       buf = '';
     }
@@ -60,6 +64,8 @@ export const endingScreen: ScreenFactory = (app) => {
   // 1文ずつ出す
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const timers: number[] = [];
+  // 区分の音（乗り換えの「ドサッ」と重ならないよう少し後に）
+  timers.push(window.setTimeout(() => playByName(g.sound), sd == null ? 0 : 450));
   const showAll = () => {
     for (const id of timers) clearTimeout(id);
     for (const l of lines) l.classList.add('is-shown');

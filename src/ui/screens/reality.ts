@@ -1,7 +1,8 @@
 // S6 現実版（設計書 1.8・決定 #9・F-07）。数字は開くたびに計算する（データの検査で expectTotal と同じことを確かめ済み）
 
-import { reality, toMan } from '../../core/compound';
+import { reality } from '../../core/compound';
 import { config } from '../../data';
+import { toMan } from '../../format';
 import { t, type MessageKey } from '../../i18n';
 import type { ScreenFactory } from '../app';
 import { button, externalLink, h } from '../dom';

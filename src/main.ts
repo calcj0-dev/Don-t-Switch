@@ -1,6 +1,8 @@
 // 入口
 
 import './style.css';
+import { initAnalytics } from './analytics';
+import { unlockAudio } from './audio';
 import { accept, pressNext, pressSwitch, toReality, toResult } from './core/game';
 import { config } from './data';
 import { setLocale, t } from './i18n';
@@ -16,6 +18,10 @@ import { titleScreen } from './ui/screens/title';
 
 setLocale('ja');
 document.title = t('meta.name');
+initAnalytics();
+// iOS では利用者が触ったときに音を鳴らせるようにする
+document.addEventListener('pointerdown', unlockAudio, { capture: true });
+document.addEventListener('keydown', unlockAudio, { capture: true });
 
 const root = document.querySelector<HTMLElement>('#app');
 if (root) {

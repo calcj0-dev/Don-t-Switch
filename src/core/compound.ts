@@ -84,11 +84,7 @@ export const reality = (monthly: number, rate: number, startAge: number, endAge:
   return { total: Math.round(v), deposited: monthly * months };
 };
 
-/** 万円表記（四捨五入）。例 54,561,899 → "5,456万円" */
-export const toMan = (yen: number): string => `${Math.round(yen / 10000).toLocaleString('ja-JP')}万円`;
-/** 「5億3,687万円」形式 */
-export const toOkuMan = (yen: number): string => {
-  const oku = Math.floor(yen / 1e8),
-    man = Math.floor((yen % 1e8) / 1e4);
-  return oku > 0 ? `${oku}億${man ? man.toLocaleString('ja-JP') + '万' : ''}円` : `${man.toLocaleString('ja-JP')}万円`;
-};
+/** 万円単位（四捨五入）。例 54,561,899 → 5,456。表記の文字は src/format.ts（文言は i18n） */
+export const manRounded = (yen: number): number => Math.round(yen / 10000);
+/** 億と万（切り捨て）。例 536,870,912 → { oku: 5, man: 3687 } */
+export const okuMan = (yen: number): { oku: number; man: number } => ({ oku: Math.floor(yen / 1e8), man: Math.floor((yen % 1e8) / 1e4) });
