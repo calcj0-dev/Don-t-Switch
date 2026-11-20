@@ -179,7 +179,15 @@ button {
 }
 
 .modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   font-size: 15px;
+}
+
+.modal-body .link {
+  align-self: flex-start;
+  padding: 0;
 }
 
 /* ---- S1 タイトル ---- */
