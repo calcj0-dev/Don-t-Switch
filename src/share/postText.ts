@@ -1,6 +1,6 @@
-// 投稿文（設計書 5.5）：決まった文＋絵文字30マス＋ハッシュタグ
+// 投稿文（設計書 5.5）：決まった文＋ハッシュタグ。絵文字30マスは入れない（2026-11-20 オーナー決定）
 
-import { emojiGrid, groupFor } from '../core/compound';
+import { groupFor } from '../core/compound';
 import { config } from '../data';
 import { t, type MessageKey } from '../i18n';
 
@@ -8,7 +8,6 @@ export function postText(switchDay: number | null): string {
   const g = groupFor(switchDay, config.groups);
   const vars = {
     title: t(`titles.${g.titleId}` as MessageKey),
-    grid: emojiGrid(switchDay, config, config.emoji),
     hashtag: config.hashtag,
   };
   return switchDay == null

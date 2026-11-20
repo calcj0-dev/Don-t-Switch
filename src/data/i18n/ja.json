@@ -253,8 +253,8 @@
     "portal": "ほかのアプリ（Ted App Lab）"
   },
   "share": {
-    "switched": "謎の大富豪に1円をもらって、{day}日目に1億円に乗り換えた。あと{left}日で5億3,687万円だった。称号：{title}\n{grid}\n#{hashtag}",
-    "completed": "謎の大富豪に1円をもらって、30日間我慢した。5億3,687万円になった。称号：{title}\n{grid}\n#{hashtag}"
+    "switched": "謎の大富豪に1円をもらって、{day}日目に1億円に乗り換えた。あと{left}日で5億3,687万円だった。称号：{title}\n#{hashtag}",
+    "completed": "謎の大富豪に1円をもらって、30日間我慢した。5億3,687万円になった。称号：{title}\n#{hashtag}"
   },
   "image": {
     "note": "毎日2倍はたとえ話です。登場人物は架空です",
