@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "days": 30,
+  "startYen": 1,
+  "multiplier": 2,
+  "switchAmount": 100000000,
+  "reverseDay": 28,
+  "bank": { "principal": 100000000, "annualRate": 0.002, "method": "simpleDaily365Round" },
+  "switchConfirm": false,
+  "switchOnLastDay": false,
+  "graph": { "yMaxBase": 120000000, "expandFromDay": 29, "overflowMargin": 1.1, "resultYMax": 600000000 },
+  "groups": [
+    { "id": "g1", "from": 1,  "to": 10, "titleId": "t_g1", "endingId": "e_g1", "sound": "powan" },
+    { "id": "g2", "from": 11, "to": 19, "titleId": "t_g2", "endingId": "e_g2", "sound": "powan" },
+    { "id": "g3", "from": 20, "to": 24, "titleId": "t_g3", "endingId": "e_g3", "sound": "powan" },
+    { "id": "g4", "from": 25, "to": 27, "titleId": "t_g4", "endingId": "e_g4", "sound": "powan" },
+    { "id": "g5", "from": 28, "to": 29, "titleId": "t_g5", "endingId": "e_g5", "sound": "gaan" },
+    { "id": "g6", "from": 30, "to": 30, "titleId": "t_g6", "endingId": "e_g6", "sound": "fanfare" }
+  ],
+  "analogies": [
+    { "id": "a_coin",    "fromDay": 1,  "minYen": 1 },
+    { "id": "a_candy",   "fromDay": 5,  "minYen": 10 },
+    { "id": "a_juice",   "fromDay": 8,  "minYen": 120 },
+    { "id": "a_lunch",   "fromDay": 11, "minYen": 1000 },
+    { "id": "a_yakiniku","fromDay": 15, "minYen": 10000 },
+    { "id": "a_phone",   "fromDay": 17, "minYen": 60000 },
+    { "id": "a_kei",     "fromDay": 22, "minYen": 1500000 },
+    { "id": "a_house",   "fromDay": 26, "minYen": 30000000 },
+    { "id": "a_building","fromDay": 28, "minYen": 120000000 },
+    { "id": "a_station", "fromDay": 30, "minYen": 500000000 }
+  ],
+  "reality": {
+    "monthly": 30000,
+    "endAge": 65,
+    "compounding": "monthlyDepositAtStart",
+    "rows": [
+      { "id": "r_5_22",  "rate": 0.05,  "startAge": 22, "expectTotal": 54561899, "expectDeposited": 15480000 },
+      { "id": "r_5_42",  "rate": 0.05,  "startAge": 42, "expectTotal": 15549246, "expectDeposited": 8280000 },
+      { "id": "r_02_22", "rate": 0.002, "startAge": 22, "expectTotal": 16166427, "expectDeposited": 15480000 }
+    ]
+  },
+  "sounds": {
+    "next": "chalin",
+    "nextLevels": [ { "fromDay": 1, "count": 1 }, { "fromDay": 20, "count": 2 }, { "fromDay": 26, "count": 3 } ],
+    "switch": "dosa",
+    "reverse": "jaan"
+  },
+  "emoji": { "keep": "🟩", "switch": "💴", "after": "⬜" },
+  "hashtag": "乗り換えたら負け",
+  "storageKey": "baka084.v1",
+  "links": {
+    "portal": "https://app-lab-rust.vercel.app/?utm_source=bakage&utm_medium=game&utm_campaign=baka084",
+    "tameru": "https://tameru-lovat.vercel.app/?utm_source=bakage&utm_medium=game&utm_campaign=baka084",
+    "tva": "https://trader-vs-autopilot.vercel.app/?utm_source=bakage&utm_medium=game&utm_campaign=baka084",
+    "follow": "https://x.com/shooojp19"
+  }
+}
