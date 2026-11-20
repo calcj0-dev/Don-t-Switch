@@ -360,24 +360,239 @@ button {
   }
 }
 
-/* ---- S4 エンディング（仮） ---- */
-.screen-ending {
-  gap: 16px;
-  text-align: center;
-}
-
-.ending-title {
-  margin-top: 64px;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.screen-ending .btn-start {
-  margin-top: 24px;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .is-reverse .amount {
     animation: none;
   }
+}
+
+/* ---- S4 エンディング ---- */
+.ending-head {
+  margin-top: 48px;
+  color: var(--text-sub);
+  font-size: 15px;
+}
+
+.ending-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 8px 0 32px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.ending-line,
+.ending-next {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.6s,
+    transform 0.6s;
+}
+
+.ending-next {
+  margin-top: auto;
+  pointer-events: none;
+}
+
+.ending-line.is-shown,
+.ending-next.is-shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ---- S5 結果 ---- */
+.screen-result {
+  gap: 8px;
+}
+
+.result-heading {
+  color: var(--text-sub);
+  font-size: 14px;
+  text-align: center;
+}
+
+.result-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.result-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.result-day {
+  font-weight: 700;
+}
+
+.result-gap {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.graph-result {
+  height: 200px;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-share-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-reality {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+}
+
+.page-links {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 16px;
+}
+
+/* ---- S6 現実版 ---- */
+.screen-reality {
+  gap: 14px;
+}
+
+.reality-lead {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.reality-premise {
+  font-size: 15px;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bar-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bar-track {
+  position: relative;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.bar-total,
+.bar-deposited {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6px;
+}
+
+.bar-total {
+  background: var(--gold);
+}
+
+.bar-deposited {
+  background: rgb(255 255 255 / 0.55);
+}
+
+.is-bank .bar-total {
+  background: var(--bank);
+}
+
+.bar-values {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.bar-value {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.bar-dep {
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.reality-punch {
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.reality-sub {
+  font-size: 14px;
+  color: var(--text-sub);
+  text-align: center;
+}
+
+.apps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.apps-heading {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-note {
+  font-size: 14px;
+}
+
+.app-card .link {
+  min-height: 32px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.reality-note {
+  line-height: 1.6;
 }
