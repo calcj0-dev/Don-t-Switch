@@ -35,8 +35,8 @@ export const realityScreen: ScreenFactory = (app) => {
     ]),
   );
 
-  const app1 = (name: MessageKey, note: MessageKey, href: string) =>
-    h('div', { className: 'app-card' }, [h('p', { className: 'app-note', text: t(note) }), externalLink(t(name), href)]);
+  const app1 = (name: MessageKey, note: MessageKey | null, href: string) =>
+    h('div', { className: 'app-card' }, [note && h('p', { className: 'app-note', text: t(note) }), externalLink(t(name), href)]);
 
   const el = h('section', { className: 'screen screen-reality' }, [
     h('div', { className: 'top-bar' }, [sound.el]),
@@ -48,10 +48,10 @@ export const realityScreen: ScreenFactory = (app) => {
     h('div', { className: 'apps' }, [
       h('p', { className: 'apps-heading', text: t('reality.apps') }),
       app1('reality.tameru', 'reality.tameruNote', config.links.tameru),
-      app1('reality.tva', 'reality.tvaNote', config.links.tva),
+      app1('reality.portal', null, config.links.portal),
     ]),
     button(t('result.retry'), () => retry(app), 'btn btn-primary btn-start'),
-    h('div', { className: 'page-links' }, [externalLink(t('reality.portal'), config.links.portal), externalLink(t('reality.follow'), config.links.follow)]),
+    h('div', { className: 'page-links' }, [externalLink(t('reality.follow'), config.links.follow)]),
     h('p', { className: 'note reality-note', text: t('reality.note') }),
   ]);
   return { el, unmount: sound.dispose };
