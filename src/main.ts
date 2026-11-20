@@ -1,20 +1,33 @@
-// 入口。#1 の時点ではタイトルの仮の画面（名前・一言・右上のバージョン）だけを出す
+// 入口
 
 import './style.css';
+import { accept, pressNext } from './core/game';
+import { config } from './data';
 import { setLocale, t } from './i18n';
-import { h } from './ui/dom';
-import { APP_VERSION } from './version';
+import { session } from './session';
+import { createApp } from './ui/app';
+import { modals } from './ui/modals';
+import { dayScreen } from './ui/screens/day';
+import { endingScreen } from './ui/screens/ending';
+import { offerScreen } from './ui/screens/offer';
+import { titleScreen } from './ui/screens/title';
 
 setLocale('ja');
 document.title = t('meta.name');
 
 const root = document.querySelector<HTMLElement>('#app');
 if (root) {
-  root.replaceChildren(
-    h('section', { className: 'screen screen-title' }, [
-      h('div', { className: 'top-bar' }, [h('span', { className: 'version', text: t('title.version', { version: APP_VERSION }) })]),
-      h('h1', { className: 'title', text: t('meta.name') }),
-      h('p', { className: 'tagline', text: t('meta.tagline') }),
-    ]),
-  );
+  const app = createApp(root, { title: titleScreen, offer: offerScreen, day: dayScreen, ending: endingScreen }, modals);
+  app.go('title');
+
+  // 開発用：?day=27 でその日の画面を直接開く（公開版では無視する）
+  if (import.meta.env.DEV) {
+    const day = Number(new URLSearchParams(location.search).get('day'));
+    if (day >= 1 && day <= config.days) {
+      let g = accept(session.game);
+      for (let d = 1; d < day; d++) g = pressNext(g, -1e9, config);
+      session.game = g;
+      app.go('day');
+    }
+  }
 }
