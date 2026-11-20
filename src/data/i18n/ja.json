@@ -20,7 +20,9 @@
   "text": {
     "sentenceEnd": "。",
     "quoteOpen": "「",
-    "quoteClose": "」"
+    "quoteClose": "」",
+    "breakAfter": "をでにがはらと",
+    "noLineStart": "ッャュョァィゥェォっゃゅょぁぃぅぇぉー、。」"
   },
   "title": {
     "deco": "💴 🎩 🪙",

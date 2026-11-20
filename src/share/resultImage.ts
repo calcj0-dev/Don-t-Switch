@@ -1,5 +1,5 @@
 // 結果画像 1200×630（設計書 6章）。画面に出さない Canvas に描いて PNG にする。
-// 30マスは端末で絵文字の見た目が違うため、色の四角で描く
+// 30マスは入れない（2026-11-20 オーナー決定）
 
 import { groupFor, yenOnDay } from '../core/compound';
 import { config } from '../data';
@@ -21,24 +21,41 @@ const C = {
   line: '#e4d8bf',
   gold: '#b97f0e',
   bank: '#9b9486',
-  keep: '#3fae5a',
-  after: '#e4d8bf',
 };
 
-/** 幅に収まるよう1文字ずつ折り返す（最大 maxLines 行。あふれたら文字を小さくする） */
-function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, size: number, weight: number, family = FONT, maxLines = 2): { lines: string[]; size: number } {
+/** 2行に分けてよい所。区切りの文字（i18n の text.breakAfter。「を」「で」など）の後ろを優先し、
+ *  なければ、小さい字（ッ・ャ など）や「ー」で行が始まらない所 */
+function breakPoints(chars: string[]): number[] {
+  const after = t('text.breakAfter');
+  const noStart = t('text.noLineStart');
+  const all = chars.map((_, i) => i).slice(1);
+  const nice = all.filter((i) => after.includes(chars[i - 1]!));
+  return nice.length ? nice : all.filter((i) => !noStart.includes(chars[i]!));
+}
+
+/** 幅に収める。少し小さくして1行に入ればそのまま、入らなければ長さが揃うように2行に分ける
+ *  （「軽自動車で降りた／人」のように1文字だけ次の行に落ちないように） */
+function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, size: number, weight: number, family = FONT): { lines: string[]; size: number } {
+  const chars = [...text];
+  const width = (s: string) => ctx.measureText(s).width;
+  for (let s = size; s >= 40; s -= 2) {
+    ctx.font = `${weight} ${s}px ${family}`;
+    if (width(text) <= maxWidth) return { lines: [text], size: s };
+  }
   for (let s = size; s >= 20; s -= 2) {
     ctx.font = `${weight} ${s}px ${family}`;
-    const lines: string[] = [];
-    let cur = '';
-    for (const ch of text) {
-      if (ctx.measureText(cur + ch).width > maxWidth && cur) {
-        lines.push(cur);
-        cur = ch;
-      } else cur += ch;
+    let best: string[] | null = null;
+    let bestMax = Infinity;
+    for (const i of breakPoints(chars)) {
+      const a = chars.slice(0, i).join('');
+      const b = chars.slice(i).join('');
+      const m = Math.max(width(a), width(b));
+      if (m <= maxWidth && m < bestMax) {
+        bestMax = m;
+        best = [a, b];
+      }
     }
-    if (cur) lines.push(cur);
-    if (lines.length <= maxLines) return { lines, size: s };
+    if (best) return { lines: best, size: s };
   }
   return { lines: [text], size: 20 };
 }
@@ -60,26 +77,14 @@ export function drawResultImage(ctx: CanvasRenderingContext2D, switchDay: number
   ctx.strokeStyle = C.line;
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.roundRect(40, 100, 660, 340, 20);
+  ctx.roundRect(40, 100, 660, 456, 20);
   ctx.fill();
   ctx.stroke();
   ctx.save();
-  ctx.translate(56, 112);
-  drawResultGraphOn(ctx, 628, 316, switchDay, config, { line: C.line, sub: C.sub, gold: C.gold, bank: C.bank }, 1.5);
+  ctx.translate(56, 114);
+  drawResultGraphOn(ctx, 628, 428, switchDay, config, { line: C.line, sub: C.sub, gold: C.gold, bank: C.bank }, 1.5);
   ctx.restore();
-
-  // 左下：30マス（色の四角）
-  const cell = 26;
-  const gap = 6;
-  for (let n = 1; n <= config.days; n++) {
-    const i = n - 1;
-    const x = 48 + (i % 10) * (cell + gap);
-    const y = 462 + Math.floor(i / 10) * (cell + gap);
-    ctx.fillStyle = switchDay == null || n < switchDay ? C.keep : n === switchDay ? C.gold : C.after;
-    ctx.beginPath();
-    ctx.roundRect(x, y, cell, cell, 5);
-    ctx.fill();
-  }
+  // 30マスは画像に入れない（2026-11-20 オーナー決定）
 
   // 右：称号・乗り換えた日・額
   const rx = 740;
